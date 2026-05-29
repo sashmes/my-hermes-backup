@@ -21,6 +21,9 @@ import argparse
 import json
 import re
 import sys
+import socket
+import urllib.request
+import random
 
 
 def extract_video_id(url_or_id: str) -> str:
@@ -47,6 +50,56 @@ def format_timestamp(seconds: float) -> str:
     return f"{m}:{s:02d}"
 
 
+def fetch_transcript_with_proxies(video_id: str, languages: list = None):
+    """Fallback method to fetch transcripts via public proxies when direct fetching is blocked."""
+    print("Direct transcript retrieval blocked. Initiating fast proxy fallback...", file=sys.stderr)
+    try:
+        from youtube_transcript_api import YouTubeTranscriptApi
+        from youtube_transcript_api.proxies import GenericProxyConfig
+    except ImportError:
+        return None
+
+    # Set short global socket timeout so dead proxies fail fast
+    original_timeout = socket.getdefaulttimeout()
+    socket.setdefaulttimeout(3.0)
+
+    # Download a reliable public HTTP proxy list
+    proxy_url = "https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt"
+    try:
+        req = urllib.request.Request(proxy_url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=8.0) as response:
+            content = response.read().decode('utf-8')
+            proxies = [line.strip() for line in content.split('\n') if line.strip()]
+    except Exception as e:
+        print(f"Failed to fetch proxy list: {e}", file=sys.stderr)
+        socket.setdefaulttimeout(original_timeout)
+        return None
+
+    random.shuffle(proxies)
+    print(f"Downloaded {len(proxies)} proxies. Trying up to 100...", file=sys.stderr)
+
+    for idx, proxy in enumerate(proxies[:100]):
+        proxy_href = f"http://{proxy}"
+        proxy_config = GenericProxyConfig(http_url=proxy_href, https_url=proxy_href)
+        try:
+            api = YouTubeTranscriptApi(proxy_config=proxy_config)
+            if languages:
+                result = api.fetch(video_id, languages=languages)
+            else:
+                result = api.fetch(video_id)
+            
+            print(f"Proxy attempt {idx+1} succeeded with {proxy}!", file=sys.stderr)
+            socket.setdefaulttimeout(original_timeout)
+            return result
+        except Exception:
+            # Silent fail for individual proxies to keep output clean
+            continue
+
+    socket.setdefaulttimeout(original_timeout)
+    print("All proxy attempts failed.", file=sys.stderr)
+    return None
+
+
 def fetch_transcript(video_id: str, languages: list = None):
     """Fetch transcript segments from YouTube.
 
@@ -61,10 +114,22 @@ def fetch_transcript(video_id: str, languages: list = None):
         sys.exit(1)
 
     api = YouTubeTranscriptApi()
-    if languages:
-        result = api.fetch(video_id, languages=languages)
-    else:
-        result = api.fetch(video_id)
+    
+    # Try fetching directly first
+    try:
+        if languages:
+            result = api.fetch(video_id, languages=languages)
+        else:
+            result = api.fetch(video_id)
+    except Exception as e:
+        err_str = str(e).lower()
+        # If blocked or experiencing bot detection, try proxy fallback
+        if "blocked" in err_str or "bot" in err_str or "login" in err_str or "cookies" in err_str or "unplayable" in err_str:
+            result = fetch_transcript_with_proxies(video_id, languages)
+            if not result:
+                raise e
+        else:
+            raise e
 
     # v1.x returns FetchedTranscriptSnippet objects; normalize to dicts
     return [

@@ -67,6 +67,7 @@ After fetching the transcript, format it based on what the user asks for:
 
 ## Error Handling
 
+- **IP Blocks / Cloud Environments (Bot Detection / Sign in to confirm you're not a bot)**: In cloud environments (like AWS, GCP, Azure, etc.), YouTube often blocks direct requests from the server's IP address. The script automatically detects these blocks and initiates a rapid proxy fallback mechanism (loading public HTTP/SOCKS proxies with short timeouts) to successfully fetch the transcript.
 - **Transcript disabled**: tell the user; suggest they check if subtitles are available on the video page.
 - **Private/unavailable video**: relay the error and ask the user to verify the URL.
 - **No matching language**: retry without `--language` to fetch any available transcript, then note the actual language to the user.
