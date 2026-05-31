@@ -18,6 +18,21 @@ Extract transcripts from YouTube videos and convert them into useful formats.
 pip install youtube-transcript-api
 ```
 
+### Setup Pitfalls in Sandboxed/Docker Environments
+If you are running in an isolated or unprivileged Docker/sandbox container (e.g., UID 1001) and encounter a permission error like `OSError: [Errno 13] Permission denied: '/.local'`, or if `/tmp` is mounted with `noexec` (preventing virtual environment execution there):
+1. **Create a virtual environment in `/workspace/venv`:**
+   ```bash
+   python3 -m venv /workspace/venv
+   ```
+2. **Install the package using the virtual environment's pip:**
+   ```bash
+   /workspace/venv/bin/pip install youtube-transcript-api
+   ```
+3. **Execute scripts using the virtual environment's python:**
+   ```bash
+   /workspace/venv/bin/python3 SKILL_DIR/scripts/fetch_transcript.py "URL"
+   ```
+
 ## Helper Script
 
 `SKILL_DIR` is the directory containing this SKILL.md file. The script accepts any standard YouTube URL format, short links (youtu.be), shorts, embeds, live links, or a raw 11-character video ID.
