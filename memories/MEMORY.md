@@ -1,1 +1,3 @@
 In cloud hosting environments, YouTube blocks direct scraping requests from the VM's IP address (e.g., with bot-detection or LOGIN_REQUIRED messages). To bypass this, route transcript scraping requests through public proxies using a fast global timeout (e.g., socket.setdefaulttimeout(3.0)) to avoid hanging. This has been integrated directly as a fallback into the youtube-content skill.
+§
+The Logseq second brain is located at `/workspace/second-brain` and synchronized with the private GitHub repository `https://github.com/sashmes/second-brain` on branch `main` using the automated `logseq_git_sync.py` script.

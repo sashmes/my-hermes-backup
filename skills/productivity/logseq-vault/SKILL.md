@@ -50,6 +50,19 @@ If you need to manually pull or push the vault:
 - **Pull**: `/workspace/second-brain/logseq_git_sync.py pull`
 - **Push**: `/workspace/second-brain/logseq_git_sync.py push "Commit Message"`
 
+## Technical Workarounds & Troubleshooting
+
+### 1. Avoiding Git Credential Hangs in Automated Scripts
+In automated or non-interactive agent environments, Git may hang indefinitely if it prompts for credentials (e.g. if the PAT expires or is incorrect). 
+*   **Fix**: Always inject `GIT_TERMINAL_PROMPT=0` into the environment variables when executing Git commands in subprocesses (e.g., `os.environ["GIT_TERMINAL_PROMPT"] = "0"` in Python). This forces Git to fail immediately with a clean stderr message rather than hanging the agent turn.
+
+### 2. Push Failure: "src refspec main does not match any"
+This error occurs when you run `git init` on a new server that defaults to the branch name `master` (or doesn't create any branch yet until the first commit), while the remote repository is configured for `main`.
+*   **Resolution**:
+    1. Rename the local branch to match the remote: `git branch -m master main` (or the corresponding default name).
+    2. Set up upstream tracking for the remote branch: `git branch --set-upstream-to=origin/main main`.
+    3. Ensure a `.gitignore` is in place to ignore active agent files (`config.json`, scripts, `.gitignore` itself) so that ONLY Logseq markdown content (`journals/`, `pages/`) gets tracked.
+
 ## Outliner Format Conventions (Logseq spec)
 Logseq is a bulleted outliner. Every top-level node and block must start with a bullet `- `.
 - Use `[[Page Name]]` syntax to link to another page.

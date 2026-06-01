@@ -1,1 +1,3 @@
 User is a Linux user running an openSUSE workstation (local username: lowxprt, home directory: /home/lowxprt). They prefer retro-cyberpunk, dark, or Matrix-themed styling. When customizing wallpapers/desktops, they prefer highly crisp, visible solid-color icons (e.g. 40x40 pixel white rabbit) and retro scrolling LED dot-matrix panel displays rather than extremely faint/faded reflections.
+§
+User uses Logseq for their "second brain" notes, utilizes the Harvard Business School case study method for company analysis, prefers highly structured, expert-level prompts ("autistic PhD student" style rather than standard AI assistant fluff), and has the GitHub username "sashmes".
