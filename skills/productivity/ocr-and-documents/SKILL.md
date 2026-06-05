@@ -56,6 +56,26 @@ If the user needs marker capabilities but the system lacks ~5GB free disk:
 
 ---
 
+## Pure-Python Fallback (pypdf) for Restricted Sandboxes
+
+If installing compiled C-based libraries (like `pymupdf`) fails due to missing shared libraries (e.g., `libfitz`), or if write permissions prevent normal package installation (e.g., `/.local` permission denied in a containerized environment), use **pypdf** (a pure-Python library with zero external C dependencies) installed to a writable temporary directory:
+
+```bash
+# Install to a local writable target directory (e.g. /tmp/packages)
+pip install --target /tmp/packages pypdf
+
+# Execute python scripts with PYTHONPATH pointing to the target
+PYTHONPATH=/tmp/packages python3 -c "
+import pypdf
+reader = pypdf.PdfReader('document.pdf')
+for idx, page in enumerate(reader.pages):
+    print(f'--- Page {idx+1} ---')
+    print(page.extract_text())
+"
+```
+
+---
+
 ## pymupdf (lightweight)
 
 ```bash
