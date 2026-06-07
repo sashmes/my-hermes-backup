@@ -63,6 +63,19 @@ Logseq is a bulleted outliner. Every top-level node and block must start with a 
     - Another detail
   ```
 
+## Bi-directional Memory & Preference Sync
+To maintain a unified context across separate Hermes instances (e.g., local laptop assistant vs. remote server-hosted gateway), set up a bi-directional memory bridge:
+1.  **Ingest (Pull Phase)**:
+    *   Pull the latest commits from the Git remote.
+    *   Read the contents of `/pages/hermes_user.md` (user preferences) and `/pages/hermes_memory.md` (learned memories).
+    *   Ingest the preferences and memories into the server-side persistent database (SQLite) using semantic deduplication to avoid redundant entries.
+2.  **Export (Push Phase)**:
+    *   Fetch the complete, unified state of your active database memories.
+    *   Overwrite `/pages/hermes_user.md` and `/pages/hermes_memory.md` with the newly compiled lists, structured cleanly in Logseq outliner bullets.
+    *   Commit and push these updated files back to GitHub.
+3.  **Automation**:
+    *   Deploy this loop as an hourly cron job (`0 * * * *`) that dynamically filters for the user's specific local hours (e.g., exactly 6:00 AM and 1:00 PM) to ensure timezone-safe alignment.
+
 ---
 
 ## Linked Files & Assets
