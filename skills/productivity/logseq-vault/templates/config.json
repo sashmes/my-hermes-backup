@@ -1,0 +1,8 @@
+{
+  "remote_url": "https://github.com/sashmes/second-brain",
+  "branch": "main",
+  "git_username": "Hermes Agent",
+  "git_email": "agent@hermes.ai",
+  "vault_path": "/workspace/second-brain",
+  "timezone": "America/New_York"
+}

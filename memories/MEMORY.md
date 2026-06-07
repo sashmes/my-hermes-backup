@@ -7,3 +7,5 @@ User has a Logseq "second brain" repository initialized at /workspace/second-bra
 User has planned an "Agentic Life Operating System" (@LOS) based on August Bradley's Pillars, Pipelines, and Vaults (PPV) framework, adapted to Logseq. The build is on hold and will be resumed in a day or two. The plan involves creating templates in pages/Templates.md, constructing pages/Life_OS_Dashboard.md with advanced Logseq queries, and enabling Hermes smart-inbox features.
 §
 User's local Logseq vault path on their laptop is `/home/lowxprt/thoughts`. Always automatically draft, generate, and populate a structured 'Summary [AI Generated]' block whenever adding/ingesting a new resource, reading, or bookmark.
+§
+An automated bi-directional memory and preference sync cron job 'Logseq Memory Sync' (job_id: cbed372c3598) is active on this server, running every hour ('0 * * * *') to pull from sashmes/second-brain and push back updated hermes_user.md and hermes_memory.md files twice a day at 6:00 AM and 1:00 PM local New York time.

@@ -7,7 +7,7 @@ license: MIT
 platforms: [linux]
 metadata:
   hermes:
-    tags: [logseq, notes, second-brain, sync, git, productivity, timezone]
+    tags: [logseq, notes, second-brain, sync, git, productivity, cron, timezone]
 ---
 
 # Logseq Vault Management
@@ -21,9 +21,9 @@ The canonical path of the Logseq graph is:
 Journals are stored under `/workspace/second-brain/journals/` and page files under `/workspace/second-brain/pages/`.
 
 ## Appending to Daily Journal
-To add a new note, thought, clipping, meeting note, or message to today's daily journal page, run the sync script:
+To add a new note, thought, clipping, meeting note, or message to today's daily journal page, run:
 ```bash
-/home/agentuser/.hermes/skills/productivity/logseq-vault/scripts/logseq_git_sync.py append "Your note content"
+/workspace/second-brain/logseq_git_sync.py append "Your note content"
 ```
 This script will automatically:
 1. Try to pull the latest changes from the Git remote to avoid conflicts.
@@ -34,23 +34,21 @@ This script will automatically:
 ## Searching the Vault
 To search across the entire second brain (both journals and pages), run:
 ```bash
-/home/agentuser/.hermes/skills/productivity/logseq-vault/scripts/logseq_search.py search "keyword/query"
+/workspace/second-brain/logseq_search.py search "keyword/query"
 ```
 This is extremely fast and outputs matched files and lines with line numbers.
 
 ## Viewing Recent Notes
 To inspect recent daily journals and see what's been captured, run:
 ```bash
-/home/agentuser/.hermes/skills/productivity/logseq-vault/scripts/logseq_search.py recent [limit]
+/workspace/second-brain/logseq_search.py recent [limit]
 ```
 Where `limit` is the number of recent journals to show (defaults to 5).
 
 ## Manual Git Sync
 If you need to manually pull or push the vault:
-- **Pull**: `logseq_git_sync.py pull`
-- **Push**: `logseq_git_sync.py push "Commit Message"`
-
----
+- **Pull**: `/workspace/second-brain/logseq_git_sync.py pull`
+- **Push**: `/workspace/second-brain/logseq_git_sync.py push "Commit Message"`
 
 ## Outliner Format Conventions (Logseq spec)
 Logseq is a bulleted outliner. Every top-level node and block must start with a bullet `- `.
@@ -67,41 +65,33 @@ Logseq is a bulleted outliner. Every top-level node and block must start with a 
 
 ---
 
-## Technical Pitfalls & Troubleshooting
-
-### 1. Timezone Mismatches (UTC vs Local)
-*   **The Problem**: Headless servers run in UTC. If the server is in UTC (e.g., June 1st) and the user's laptop/phone is in EDT (e.g., May 31st), writing a note using `datetime.now()` will create a file for tomorrow (`2026_06_01.md`). The user will not see it on their current Logseq dashboard because it is in the "future".
-*   **The Solution**: Configure `"timezone"` (e.g., `"America/New_York"`) in `config.json` and resolve datetime using Python's standard `zoneinfo` module:
-    ```python
-    from zoneinfo import ZoneInfo
-    tz = ZoneInfo(config.get("timezone", "UTC"))
-    now = datetime.now(tz)
-    ```
-
-### 2. Git Prompts Freezing Background Sessions
-*   **The Problem**: If a private Git repository fails authentication, Git will prompt for credentials. In headless/gateway runs, this will block the session and freeze the agent process.
-*   **The Solution**: Always copy the current environment and set `GIT_TERMINAL_PROMPT = "0"` before running Git subprocesses to force immediate non-interactive failure instead of hanging:
-    ```python
-    env = os.environ.copy()
-    env["GIT_TERMINAL_PROMPT"] = "0"
-    subprocess.run(["git"] + args, env=env, ...)
-    ```
-
-### 3. Git Branch Mismatches (master vs main)
-*   **The Problem**: A freshly initialized repository (`git init`) might default to `master`, whereas the remote GitHub repository uses `main`, resulting in push errors like `src refspec main does not match any`.
-*   **The Solution**: Rename the local branch immediately and track the remote upstream during initialization:
-    ```bash
-    git branch -m master main
-    git branch --set-upstream-to=origin/main main
-    ```
+## Linked Files & Assets
+This skill includes built-in scripts and templates to enable fast and robust setups:
+*   `templates/config.json` — Starter configuration file.
+*   `scripts/logseq_git_sync.py` — Verbatim background git pull/push/append script.
+*   `scripts/logseq_search.py` — Fast file & content regex search tool.
+*   `scripts/logseq_memory_sync.py` — Double-daily memory pulling and printing check.
 
 ---
 
-## Agentic Life Operating System (@LOS) Plan
-The vault structure is designed to support the **Pillars, Pipelines, and Vaults (PPV)** framework by August Bradley.
-*   **Pillars**: Page directory prefix `pillar/` (e.g., `[[pillar/Business]]`). High-level domains of life.
-*   **Pipelines**:
-    *   **Goals**: Targets prefixed with `goal/` (e.g., `[[goal/Build-SaaS]]`).
-    *   **Projects**: Specific, time-bound initiatives prefixed with `project/` (e.g., `[[project/OAuth-Service]]`).
-    *   **Tasks**: Standard outliner bullets starting with `- TODO` or `- DOING` mapped to their respective project pages via double-brackets `#[[project/OAuth-Service]]`.
-*   **Vaults**: Long-term resources prefixed with `vault/` (e.g., `[[vault/Prompt-Stacking]]`). Used for knowledge curation.
+## Pitfalls & Critical Learnings
+
+### 1. Server Timezone Mismatch (UTC vs User)
+*   **The Pitfall**: Servers run on UTC, while users are typically in different local timezones (e.g. `America/New_York`). If you resolve dates using `datetime.now()`, the server may write to a future date file (e.g., `2026_06_01.md` instead of `2026_05_31.md`), causing the notes to be hidden from the user's current daily journal view in Logseq.
+*   **The Fix**: Always resolve dates using the user's local timezone. Configure `"timezone": "America/New_York"` in `config.json` and use:
+    ```python
+    from zoneinfo import ZoneInfo
+    now = datetime.now(ZoneInfo(tz_name))
+    ```
+
+### 2. Interactive Git Prompts Prevention
+*   **The Pitfall**: When Git operations are run from background processes, cron jobs, or non-interactive terminals, any authentication failure will prompt for user credentials, causing the subprocess to hang indefinitely and block the agent queue.
+*   **The Fix**: Always copy `os.environ` and explicitly set `env["GIT_TERMINAL_PROMPT"] = "0"` in the subprocess runner so Git fails fast on credential errors rather than blocking.
+
+### 3. Git Ignore Security Rules
+*   **The Pitfall**: Committing local config files (like `config.json` holding raw tokens), SSH keys (`id_rsa`), or helper scripts to the user's repository creates clutter and security risks.
+*   **The Fix**: Immediately write a `.gitignore` to explicitly ignore `.gitignore`, `config.json`, `*.py`, `*.sh`, `id_rsa`, and `venv/`. The user's GitHub repository should only contain raw markdown graph pages (`journals/` and `pages/`).
+
+### 4. Hourly Timezone-Safe Cron Filtering
+*   **The Pitfall**: Scheduling a cron job for specific hours (e.g., daily at 6 AM) using UTC triggers will drift when the user's local time shifts during Daylight Saving transitions (EST vs EDT).
+*   **The Fix**: Set the cron scheduler to trigger every hour (`0 * * * *`). At the start of the execution, run a Python check to see if the current local hour in `America/New_York` is exactly the target hour (e.g. 6 or 13), and exit cleanly if not. This ensures zero drift and saves CPU/token costs.
