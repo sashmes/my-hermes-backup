@@ -63,6 +63,18 @@ Logseq is a bulleted outliner. Every top-level node and block must start with a 
     - Another detail
   ```
 
+## Durable Automation & Memory Integration
+To maintain a high-precision, low-clutter environment:
+1. **Durable Memory Synchronization**: We maintain a bi-directional sync cron job `Logseq Memory Sync` (job_id: `cbed372c3598`) running every hour (`0 * * * *`). It uses `scripts/logseq_memory_sync.py` to check the timezone. At exactly 06:00 and 13:00 local New York time, it:
+   - Git-pulls the latest changes from the remote.
+   - Reads `pages/hermes_user.md` and `pages/hermes_memory.md`.
+   - Ingests new preferences and memories into our server-side SQLite store.
+   - Overwrites the markdown pages with the complete, updated server-side database.
+   - Git-pushes the files back so they synchronize seamlessly to the user's laptop and phone.
+2. **Resource Ingestion Rule**: Always automatically draft, generate, and populate a structured `Summary [AI Generated]` block whenever the user asks to add or ingest a new reading, bookmark, article, or resource asset into the Logseq second-brain vault.
+3. **Communication Channel Preference**: The user prefers a single, unified gateway channel (specifically, their Telegram cloud server bot) to capture information and coordinate with their notes to prevent the distraction of juggling multiple messaging platforms or bots. Always favor this channel.
+
+
 ## Bi-directional Memory & Preference Sync
 To maintain a unified context across separate Hermes instances (e.g., local laptop assistant vs. remote server-hosted gateway), set up a bi-directional memory bridge:
 1.  **Ingest (Pull Phase)**:
