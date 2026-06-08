@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☤ Agentic Life OS Dashboard</title>
+    <!-- Tailwind CSS for modern minimalistic utility styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght=400;500;700&display=swap');
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: #0B0F12;
+            color: #C1D1C4;
+        }
+        .matrix-glow {
+            text-shadow: 0 0 10px #10B981, 0 0 20px #047857;
+        }
+        .border-matrix {
+            border-color: #064E3B;
+        }
+        .btn-matrix {
+            background-color: rgba(6, 78, 59, 0.4);
+            border: 1px solid #10B981;
+            color: #10B981;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(2px);
+        }
+        .btn-matrix:hover {
+            background-color: #10B981;
+            color: #0B0F12;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        .btn-matrix.active {
+            background-color: #10B981;
+            color: #0B0F12;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        .led-ticker {
+            background-color: rgba(5, 8, 10, 0.8);
+            border: 1px solid #064E3B;
+            overflow: hidden;
+            white-space: nowrap;
+            backdrop-filter: blur(2px);
+        }
+        .led-text {
+            display: inline-block;
+            animation: scroll-ticker 20s linear infinite;
+            color: #10B981;
+            text-shadow: 0 0 5px #10B981;
+        }
+        @keyframes scroll-ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 max-w-[1400px] mx-auto min-h-screen relative">
+
+    <!-- Fullscreen Dotted Background (Directly translated from React DottedBackground component) -->
+    <div class="fixed inset-0 w-full h-full -z-10 pointer-events-none">
+        <svg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Dotted Grid Pattern -->
+                <pattern id="dotted-pattern" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+                    <circle cx="6" cy="6" r="2.4" fill="#215769" />
+                </pattern>
+
+                <!-- Vignette Gradient Overlay -->
+                <radialGradient id="vignette-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                    <stop offset="40%" stop-color="#0B0F12" stop-opacity="0" />
+                    <stop offset="100%" stop-color="#0B0F12" stop-opacity="1" />
+                </radialGradient>
+
+                <!-- Inner Glow Gradient Overlay -->
+                <radialGradient id="innerglow-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                    <stop offset="0%" stop-color="#0B0F12" stop-opacity="0" />
+                    <stop offset="100%" stop-color="#0B0F12" stop-opacity="0.85" />
+                </radialGradient>
+            </defs>
+
+            <!-- Background and Dotted Grid Layer -->
+            <rect x="0" y="0" width="100%" height="100%" fill="#0B0F12" />
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#dotted-pattern)" />
+
+            <!-- Vignette Layer -->
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#vignette-gradient)" />
+
+            <!-- Inner Glow / Ambient Shadow Layer -->
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#innerglow-gradient)" />
+        </svg>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="relative z-10">
+
+        <!-- Header Panel -->
+        <header class="border border-matrix p-6 rounded mb-6 bg-slate-950/40 backdrop-blur-sm flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-emerald-500 matrix-glow mb-1">☤ AGENTIC LIFE OS</h1>
+                <p class="text-xs text-emerald-600 uppercase tracking-widest font-semibold">Status: Synchronized // User: lowxprt</p>
+            </div>
+            
+            <!-- Live System Badges -->
+            <div class="flex gap-3 text-xs">
+                <span class="px-2 py-1 bg-black/60 border border-matrix text-emerald-500 rounded flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> HERMES: ONLINE
+                </span>
+                <span class="px-2 py-1 bg-black/60 border border-matrix text-emerald-500 rounded">
+                    VAULT: SYNCED
+                </span>
+                <span class="px-2 py-1 bg-black/60 border border-matrix text-emerald-500 rounded">
+                    TZ: NY (EDT)
+                </span>
+            </div>
+        </header>
+
+        <!-- Retro LED Scrolling Panel -->
+        <div class="led-ticker py-2 px-4 rounded mb-6 text-xs font-bold uppercase tracking-widest">
+            <div class="led-text" id="ledTickerText">
+                MDR ACTIVE // CURATED BRIEF FEED REFRESHED // CALENDAR MODULE REALIGNMENT SYNCED // GRID OVERLAY RENDERING IN LOCKSTEP...
+            </div>
+        </div>
+
+        <!-- Redesigned Navigation Buttons -->
+        <nav class="flex flex-wrap gap-2 mb-6 justify-center">
+            <button class="btn-matrix active px-10 py-3 text-sm font-bold uppercase rounded-sm tracking-widest" onclick="switchTab('focus', this)">
+                FOCUS
+            </button>
+            <button class="btn-matrix px-10 py-3 text-sm font-bold uppercase rounded-sm tracking-widest" onclick="switchTab('capture', this)">
+                CAPTURE
+            </button>
+            <button class="btn-matrix px-10 py-3 text-sm font-bold uppercase rounded-sm tracking-widest" onclick="switchTab('plan', this)">
+                PLAN
+            </button>
+        </nav>
+
+        <!-- ==================== TAB 1: FOCUS ==================== -->
+        <div id="tab-focus" class="tab-content grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+            
+            <!-- COLUMN 1: Calendar System -->
+            <section class="border border-matrix p-5 rounded bg-slate-950/40 backdrop-blur-sm flex flex-col justify-between min-h-[550px] lg:col-span-1">
+                <div class="flex flex-col h-full justify-between">
+                    <div>
+                        <h2 class="text-xs font-bold text-emerald-500 mb-4 tracking-widest flex justify-between items-center border-b border-matrix pb-2">
+                            <span>📅 CALENDAR</span>
+                            <span class="text-[9px] text-emerald-600 font-semibold" id="calDateLabel">JUNE 1, 2026</span>
+                        </h2>
+
+                        <!-- View Switch Buttons -->
+                        <div class="grid grid-cols-3 gap-1 mb-4">
+                            <button id="btn-view-schedule" class="btn-matrix active py-1.5 text-[8px] font-bold uppercase rounded" onclick="switchCalendarView('schedule')">
+                                SCHED
+                            </button>
+                            <button id="btn-view-week" class="btn-matrix py-1.5 text-[8px] font-bold uppercase rounded" onclick="switchCalendarView('week')">
+                                WEEK
+                            </button>
+                            <button id="btn-view-month" class="btn-matrix py-1.5 text-[8px] font-bold uppercase rounded" onclick="switchCalendarView('month')">
+                                MONTH
+                            </button>
+                        </div>
+
+                        <!-- Calendar Content Panel -->
+                        <div class="bg-black/60 border border-matrix rounded p-3 min-h-[350px]" id="calendarContent">
+                            <!-- Default: Schedule View -->
+                            <div id="cal-schedule" class="space-y-4 text-[10px]">
+                                <div class="flex flex-col border-l-2 border-emerald-500 pl-2">
+                                    <span class="text-emerald-500 font-bold">09:00 - 09:30</span>
+                                    <span class="text-emerald-400">Morning Alignment & Habits</span>
+                                </div>
+                                <div class="flex flex-col border-l-2 border-emerald-600 pl-2">
+                                    <span class="text-emerald-500 font-bold">10:30 - 12:30</span>
+                                    <span class="text-emerald-400 font-medium">Deep Work: FastAPI Auth</span>
+                                </div>
+                                <div class="flex flex-col border-l-2 border-emerald-800 pl-2">
+                                    <span class="text-emerald-600 font-bold">13:00 - 13:15</span>
+                                    <span class="text-emerald-500 font-bold">MDR Memory Ingest Sync</span>
+                                </div>
+                                <div class="flex flex-col border-l-2 border-emerald-600 pl-2">
+                                    <span class="text-emerald-500 font-bold">15:00 - 16:30</span>
+                                    <span class="text-emerald-400">Review LinkedIn posts & CTA</span>
+                                </div>
+                            </div>
+
+                            <!-- Week View -->
+                            <div id="cal-week" class="hidden space-y-3 text-[10px]">
+                                <div class="grid grid-cols-7 gap-1 text-center font-bold text-emerald-600 border-b border-matrix pb-1 mb-2">
+                                    <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                                </div>
+                                <div class="grid grid-cols-7 gap-1 text-center font-semibold">
+                                    <span class="p-1.5 border border-matrix bg-emerald-950 text-emerald-300 rounded font-bold">1</span>
+                                    <span class="p-1.5 border border-matrix rounded">2</span>
+                                    <span class="p-1.5 border border-matrix rounded">3</span>
+                                    <span class="p-1.5 border border-matrix rounded">4</span>
+                                    <span class="p-1.5 border border-matrix rounded">5</span>
+                                    <span class="p-1.5 border border-matrix rounded bg-emerald-900">6</span>
+                                    <span class="p-1.5 border border-matrix rounded">7</span>
+                                </div>
+                            </div>
+
+                            <!-- Month View -->
+                            <div id="cal-month" class="hidden text-[8px] space-y-2">
+                                <div class="grid grid-cols-7 gap-1 text-center font-bold text-emerald-600 border-b border-matrix pb-1 mb-1">
+                                    <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                                </div>
+                                <div class="grid grid-cols-7 gap-1 text-center font-semibold">
+                                    <span class="p-1 border border-matrix bg-emerald-950 text-emerald-300 rounded font-bold">1</span>
+                                    <span class="p-1 border border-matrix rounded">2</span>
+                                    <span class="p-1 border border-matrix rounded">3</span>
+                                    <span class="p-1 border border-matrix rounded">4</span>
+                                    <span class="p-1 border border-matrix rounded">5</span>
+                                    <span class="p-1 border border-matrix rounded">6</span>
+                                    <span class="p-1 border border-matrix rounded">7</span>
+                                    <span class="p-1 border border-matrix rounded">8</span>
+                                    <span class="p-1 border border-matrix rounded">9</span>
+                                    <span class="p-1 border border-matrix rounded">10</span>
+                                    <span class="p-1 border border-matrix rounded">11</span>
+                                    <span class="p-1 border border-matrix rounded">12</span>
+                                    <span class="p-1 border border-matrix rounded">13</span>
+                                    <span class="p-1 border border-matrix rounded">14</span>
+                                    <span class="p-1 border border-matrix rounded">15</span>
+                                    <span class="p-1 border border-matrix rounded">16</span>
+                                    <span class="p-1 border border-matrix rounded">17</span>
+                                    <span class="p-1 border border-matrix rounded">18</span>
+                                    <span class="p-1 border border-matrix rounded">19</span>
+                                    <span class="p-1 border border-matrix rounded">20</span>
+                                    <span class="p-1 border border-matrix rounded">21</span>
+                                    <span class="p-1 border border-matrix rounded">22</span>
+                                    <span class="p-1 border border-matrix rounded">23</span>
+                                    <span class="p-1 border border-matrix rounded">24</span>
+                                    <span class="p-1 border border-matrix rounded">25</span>
+                                    <span class="p-1 border border-matrix rounded">26</span>
+                                    <span class="p-1 border border-matrix rounded">27</span>
+                                    <span class="p-1 border border-matrix rounded">28</span>
+                                    <span class="p-1 border border-matrix rounded">29</span>
+                                    <span class="p-1 border border-matrix rounded">30</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COLUMN 2: Action Pipeline & Daily Habits -->
+            <div class="lg:col-span-2 flex flex-col gap-6 min-h-[550px]">
+                <section class="border border-matrix p-5 rounded bg-slate-950/40 backdrop-blur-sm flex-grow">
+                    <h2 class="text-xs font-bold text-emerald-500 mb-4 flex justify-between items-center tracking-widest border-b border-matrix pb-2">
+                        <span>⚡ ACTION PIPELINE</span>
+                        <span class="text-[10px] text-emerald-600 font-semibold" id="task-counter">3 / 5 Pending</span>
+                    </h2>
+                    
+                    <div class="flex gap-2 mb-4">
+                        <input type="text" id="newTaskInput" placeholder="New action item..." class="bg-[#05080A] border border-matrix p-2 text-xs text-emerald-400 rounded focus:outline-none focus:border-emerald-500 flex-grow placeholder-emerald-800">
+                        <button onclick="addTask()" class="btn-matrix px-4 py-2 text-[10px] font-bold uppercase rounded">
+                            ADD
+                        </button>
+                    </div>
+
+                    <div class="space-y-2.5" id="taskList">
+                        <div class="flex justify-between items-center p-2.5 bg-black/60 border border-matrix rounded task-item">
+                            <span class="text-xs font-medium task-text">Add OAuth to FastAPI Service</span>
+                            <button onclick="toggleTask(this)" class="btn-matrix px-2 py-0.5 text-[9px] font-bold rounded">
+                                DONE
+                            </button>
+                        </div>
+                        <div class="flex justify-between items-center p-2.5 bg-black/60 border border-matrix rounded task-item">
+                            <span class="text-xs font-medium task-text">Draft LinkedIn productivity post</span>
+                            <button onclick="toggleTask(this)" class="btn-matrix px-2 py-0.5 text-[9px] font-bold rounded">
+                                DONE
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="border border-matrix p-5 rounded bg-slate-950/40 backdrop-blur-sm">
+                    <h2 class="text-xs font-bold text-emerald-500 mb-4 tracking-widest border-b border-matrix pb-2">🌀 DAILY HABITS</h2>
+                    <div class="grid grid-cols-4 gap-2" id="habitGrid">
+                        <button onclick="toggleHabit(this)" class="btn-matrix py-3 px-1 text-[10px] font-bold rounded text-center uppercase">
+                            HYDRATE
+                        </button>
+                        <button onclick="toggleHabit(this)" class="btn-matrix py-3 px-1 text-[10px] font-bold rounded text-center uppercase">
+                            READ 30M
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- COLUMN 3: Highly Curated Daily Brief -->
+            <section class="border border-matrix p-5 rounded bg-slate-950/40 backdrop-blur-sm flex flex-col justify-between min-h-[550px] lg:col-span-1">
+                <div class="flex flex-col h-full justify-between">
+                    <div>
+                        <h2 class="text-xs font-bold text-emerald-500 mb-4 tracking-widest flex justify-between items-center border-b border-matrix pb-2">
+                            <span>📰 DAILY BRIEF</span>
+                            <span class="text-[9px] text-emerald-600 font-semibold">CURATED BY HERMES</span>
+                        </h2>
+
+                        <!-- Content truncated for template brevity -->
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+    <!-- Interactive JS Core -->
+    <script {nonce}>
+        // Tab switching and calendar views controllers...
+    </script>
+</body>
+</html>

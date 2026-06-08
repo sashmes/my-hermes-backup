@@ -93,6 +93,7 @@ To maintain a unified context across separate Hermes instances (e.g., local lapt
 ## Linked Files & Assets
 This skill includes built-in scripts and templates to enable fast and robust setups:
 *   `templates/config.json` — Starter configuration file.
+*   `templates/Life_OS_Dashboard_Mockup.html` — Gorgeous, glassmorphic, dotted-background dashboard mockup with centered FOCUS/CAPTURE/PLAN tabs.
 *   `scripts/logseq_git_sync.py` — Verbatim background git pull/push/append script.
 *   `scripts/logseq_search.py` — Fast file & content regex search tool.
 *   `scripts/logseq_memory_sync.py` — Double-daily memory pulling and printing check.
