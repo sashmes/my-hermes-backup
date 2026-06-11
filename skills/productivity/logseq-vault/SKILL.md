@@ -97,6 +97,8 @@ This skill includes built-in scripts and templates to enable fast and robust set
 *   `scripts/logseq_git_sync.py` — Verbatim background git pull/push/append script.
 *   `scripts/logseq_search.py` — Fast file & content regex search tool.
 *   `scripts/logseq_memory_sync.py` — Double-daily memory pulling and printing check.
+*   `scripts/dream_sequence.py` — Automated orphan-detection, health lint, and operational ledger log script.
+*   `scripts/run_web_server.py` — Fully featured python REST API server to serve real Logseq data to the web dashboard.
 
 ---
 
@@ -121,3 +123,24 @@ This skill includes built-in scripts and templates to enable fast and robust set
 ### 4. Hourly Timezone-Safe Cron Filtering
 *   **The Pitfall**: Scheduling a cron job for specific hours (e.g., daily at 6 AM) using UTC triggers will drift when the user's local time shifts during Daylight Saving transitions (EST vs EDT).
 *   **The Fix**: Set the cron scheduler to trigger every hour (`0 * * * *`). At the start of the execution, run a Python check to see if the current local hour in `America/New_York` is exactly the target hour (e.g. 6 or 13), and exit cleanly if not. This ensures zero drift and saves CPU/token costs.
+
+### 5. Logseq Graph Fragmentation and Orphan Pages
+*   **The Pitfall**: As a self-improving second brain grows, pages can become fragmented, orphaned (having 0 inbound links), or filled with empty structures. In standard RAG, these are dead weight; in Logseq, they clutter the index.
+*   **The Fix**: Deploy a python maintenance script (`scripts/dream_sequence.py`) that scans the graph pages, parses markdown link structures, detects orphans, and appends a `#orphan` tag to their first bullet node. This allows the user to easily review and link them to core pillars during weekly reviews.
+
+
+## Andrej Karpathy's LLM Wiki Pattern
+Rather than relying on narrow, raw RAG (retrieval-augmented generation) which only fetches isolated blocks on-the-fly, a self-improving knowledge base uses an LLM to incrementally compile, structure, and link flat-file markdown notes.
+*   **The Operating Manual (`HERMES.md`)**: Lives in the root directory (one level above the graph) and defines standard naming structures, formatting conventions, and automation cron parameters.
+*   **System Files**: Exactly three tracking pages inside the `pages/` directory:
+    *   `system.index.md` — Active master index of all namespaces.
+    *   `system.log.md` — Append-only operational ledger using standard timestamps.
+    *   `system.processed.md` — Clean registry of raw source files that have been integrated.
+*   **Assets Storeroom (`assets/storeroom/`)**: Immutable raw ingestion directory for untouched web clips and notes.
+
+## High-Performance Glassmorphic Dashboard Design
+For a truly commanding, minimalistic "Operations Center" dashboard:
+1.  **3-Button Master Control**: Collapse complex layouts into three centered, uppercase, bracketless tab controls: **`FOCUS`** (daily tasks & habits), **`CAPTURE`** (inbox clips & logs), and **`PLAN`** (projects & strategic goals).
+2.  **Extended Sidebar Layout**: On the `FOCUS` tab, run a full-length, vertical `CALENDAR` on the left edge (with integrated Schedule/Week/Month views) and a curated, highly refined `DAILY BRIEF` on the right edge. Keep your main actionable lists centered.
+3.  **Dotted Matrix Background**: Translate React dotted background layouts into high-performance SVG code: `#215769` dots spaced at exactly `12px` (2.4px dot size) with radial vignette and inner glow overlays. Style cards with frosted glass (`bg-slate-950/40` and `backdrop-blur-sm`) so the matrix grid subtly shines through!
+
