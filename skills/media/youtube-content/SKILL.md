@@ -51,6 +51,13 @@ python3 SKILL_DIR/scripts/fetch_transcript.py "URL" --timestamps
 python3 SKILL_DIR/scripts/fetch_transcript.py "URL" --language tr,en
 ```
 
+### Parsing Local WebVTT (.vtt) Captions
+When receiving pre-downloaded YouTube or video subtitle tracks in WebVTT format (which are highly redundant due to word-level highlighting and progressive scrolling), use the built-in parser script to compile a clean, de-duplicated plain-text transcript:
+
+```bash
+python3 SKILL_DIR/scripts/clean_vtt.py "path/to/transcript.vtt" ["output/clean.txt"]
+```
+
 ## Output Formats
 
 After fetching the transcript, format it based on what the user asks for:
@@ -87,3 +94,5 @@ After fetching the transcript, format it based on what the user asks for:
 - **Private/unavailable video**: relay the error and ask the user to verify the URL.
 - **No matching language**: retry without `--language` to fetch any available transcript, then note the actual language to the user.
 - **Dependency missing**: run `pip install youtube-transcript-api` and retry.
+- **Gateway Upload Blocks (e.g., Unsupported document type '.vtt')**: Messaging gateway services (such as Telegram, Discord, etc.) apply a strict file extension whitelist (e.g., `.txt`, `.md`, `.json`, `.csv`) and will reject direct `.vtt` uploads at the gateway layer.
+  * *Workaround*: Have the user rename the file from `transcript.vtt` to `transcript.txt` to pass the gateway validation. Once the `.txt` file is received, call the `scripts/clean_vtt.py` parsing script to remove the underlying WebVTT time-cues and word-level duplication.

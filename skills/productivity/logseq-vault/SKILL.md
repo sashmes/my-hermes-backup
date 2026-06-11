@@ -128,6 +128,13 @@ This skill includes built-in scripts and templates to enable fast and robust set
 *   **The Pitfall**: As a self-improving second brain grows, pages can become fragmented, orphaned (having 0 inbound links), or filled with empty structures. In standard RAG, these are dead weight; in Logseq, they clutter the index.
 *   **The Fix**: Deploy a python maintenance script (`scripts/dream_sequence.py`) that scans the graph pages, parses markdown link structures, detects orphans, and appends a `#orphan` tag to their first bullet node. This allows the user to easily review and link them to core pillars during weekly reviews.
 
+### 6. Gateway File-Extension Whitelisting on Document Ingestion
+*   **The Pitfall**: Messaging gateway adapters (such as Telegram or Discord) often enforce a strict, hardcoded file-extension whitelist (e.g., rejecting WebVTT `.vtt` subtitle/transcript files before they ever reach the agent sandbox) and return an error listing supported types.
+*   **The Fix**: Provide the user with immediate workarounds:
+    1. **Extension Spoofing**: Rename the file from its rejected extension to a whitelisted plain-text format (e.g., `.vtt` ➔ `.txt`) before uploading. The agent will read it, auto-detect the internal format (like WebVTT), and parse it cleanly.
+    2. **Raw Text Payload**: Copy and paste the file's raw content directly into the chat.
+    3. **Upstream Retrieval**: If the document is from an online source (like a YouTube video transcript), provide the source URL directly to let the agent retrieve it natively using specialized tools.
+
 
 ## Andrej Karpathy's LLM Wiki Pattern
 Rather than relying on narrow, raw RAG (retrieval-augmented generation) which only fetches isolated blocks on-the-fly, a self-improving knowledge base uses an LLM to incrementally compile, structure, and link flat-file markdown notes.
