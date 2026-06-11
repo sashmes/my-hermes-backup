@@ -27,7 +27,7 @@
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-06-07T18:35:25.376953+00:00",
-      "next_run_at": "2026-06-11T14:00:00+00:00",
+      "next_run_at": "2026-06-11T15:00:00+00:00",
       "last_run_at": "2026-06-11T13:00:28.756031+00:00",
       "last_status": "error",
       "last_error": "RuntimeError: HTTP 503: Gemini HTTP 503 (UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
@@ -43,5 +43,5 @@
       "profile": null
     }
   ],
-  "updated_at": "2026-06-11T13:00:28.756527+00:00"
+  "updated_at": "2026-06-11T14:00:28.877286+00:00"
 }
