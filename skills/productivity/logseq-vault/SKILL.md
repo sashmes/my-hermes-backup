@@ -135,6 +135,10 @@ This skill includes built-in scripts and templates to enable fast and robust set
     2. **Raw Text Payload**: Copy and paste the file's raw content directly into the chat.
     3. **Upstream Retrieval**: If the document is from an online source (like a YouTube video transcript), provide the source URL directly to let the agent retrieve it natively using specialized tools.
 
+### 7. Host-Level Commands in Sandboxed Terminal
+*   **The Pitfall**: Running host-level management commands (like `hermes update`, system package installations, or starting/restarting host services) inside the interactive chat's `terminal` tool fails because the terminal is sandboxed inside a Docker container that lacks host binary scope.
+*   **The Fix**: Educate the user to execute host-level CLI commands directly on their host machine by exiting the interactive Hermes session (`/exit` or `/q`), or by using platform gateway commands (like `/update` inside their Telegram chat) which execute with host-level gateway service privileges.
+
 
 ## Andrej Karpathy's LLM Wiki Pattern
 Rather than relying on narrow, raw RAG (retrieval-augmented generation) which only fetches isolated blocks on-the-fly, a self-improving knowledge base uses an LLM to incrementally compile, structure, and link flat-file markdown notes.
