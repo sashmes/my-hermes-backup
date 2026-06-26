@@ -20,17 +20,17 @@
       "schedule_display": "0 * * * *",
       "repeat": {
         "times": null,
-        "completed": 460
+        "completed": 461
       },
       "enabled": true,
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-06-07T18:35:25.376953+00:00",
-      "next_run_at": "2026-06-26T22:00:00+00:00",
-      "last_run_at": "2026-06-26T21:00:57.506711+00:00",
-      "last_status": "ok",
-      "last_error": null,
+      "next_run_at": "2026-06-26T23:00:00+00:00",
+      "last_run_at": "2026-06-26T22:00:20.917986+00:00",
+      "last_status": "error",
+      "last_error": "RuntimeError: HTTP 503: Gemini HTTP 503 (UNAVAILABLE): This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
       "last_delivery_error": null,
       "deliver": "local",
       "origin": null,
@@ -43,5 +43,5 @@
       "profile": null
     }
   ],
-  "updated_at": "2026-06-26T21:00:57.507023+00:00"
+  "updated_at": "2026-06-26T22:00:20.918333+00:00"
 }
