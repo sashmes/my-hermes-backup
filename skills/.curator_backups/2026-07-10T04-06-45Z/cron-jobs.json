@@ -1,0 +1,47 @@
+{
+  "jobs": [
+    {
+      "id": "cbed372c3598",
+      "name": "Logseq Memory Sync",
+      "prompt": "You are the Logseq Memory Sync Agent. Your job is to perform a complete bi-directional synchronization of user preferences and learned memories between this server's persistent database and the Logseq second brain pages, twice a day at exactly 6:00 AM and 1:00 PM in the 'America/New_York' timezone.\n\nFollow these steps precisely:\n\n1. Check the Timezone:\n   Run a Python command in the terminal to verify the current hour in the 'America/New_York' timezone:\n   `python3 -c \"from datetime import datetime; from zoneinfo import ZoneInfo; now = datetime.now(ZoneInfo('America/New_York')); print(now.hour)\"`\n   - If the output hour is NOT 6 or 13, exit immediately and cleanly. Stop here. Do not make any changes.\n   - If the output hour IS 6 or 13, proceed to step 2.\n\n2. Pull the Latest Changes from GitHub:\n   Go to `/workspace/second-brain` and pull the latest changes from the Git remote to capture any new edits made from the user's laptop or phone:\n   `git pull origin main --rebase`\n\n3. Ingest User Edits (Pull Phase):\n   Read the contents of the following files using the `read_file` tool:\n   - `/workspace/second-brain/pages/hermes_user.md`\n   - `/workspace/second-brain/pages/hermes_memory.md`\n   - For any user preferences in `hermes_user.md`, call the `memory` tool (target='user', action='add' or 'replace') to update your persistent server database.\n   - For any learned memories in `hermes_memory.md`, call the `memory` tool (target='memory', action='add' or 'replace') to update your persistent server database.\n   - Ensure all updates are semantically deduplicated.\n\n4. Export Server Insights (Push Phase):\n   Immediately after updating, gather your complete list of active user preferences and memories (which will be returned as the result of your memory tool calls).\n   - Format the entire, complete list of active user preferences in Logseq outliner format (starting with title:: hermes_user and bullet points starting with \"- \").\n   - Format the entire, complete list of active learned memories in Logseq outliner format (starting with title:: hermes_memory and bullet points starting with \"- \").\n   - Write these complete lists back, completely overwriting the local files:\n     * Write preferences to `/workspace/second-brain/pages/hermes_user.md`\n     * Write memories to `/workspace/second-brain/pages/hermes_memory.md`\n\n5. Sync Back to GitHub:\n   Commit and push these updated files back to Logseq's second brain so they are instantly available on the user's laptop and phone:\n   `/workspace/second-brain/logseq_git_sync.py push \"Bi-directional Logseq Memory Sync\"`\n\n6. Report a brief summary of the synchronization.",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 * * * *",
+        "display": "0 * * * *"
+      },
+      "schedule_display": "0 * * * *",
+      "repeat": {
+        "times": null,
+        "completed": 779
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-07T18:35:25.376953+00:00",
+      "next_run_at": "2026-07-10T05:00:00+00:00",
+      "last_run_at": "2026-07-10T04:00:50.094485+00:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "local",
+      "origin": null,
+      "enabled_toolsets": [
+        "terminal",
+        "file",
+        "memory"
+      ],
+      "workdir": null,
+      "profile": null
+    }
+  ],
+  "updated_at": "2026-07-10T04:00:50.094965+00:00"
+}
