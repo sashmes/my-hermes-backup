@@ -20,17 +20,17 @@
       "schedule_display": "0 * * * *",
       "repeat": {
         "times": null,
-        "completed": 1407
+        "completed": 1408
       },
       "enabled": true,
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-06-07T18:35:25.376953+00:00",
-      "next_run_at": "2026-08-05T09:00:00+00:00",
-      "last_run_at": "2026-08-05T08:00:13.680692+00:00",
+      "next_run_at": "2026-08-05T10:00:00+00:00",
+      "last_run_at": "2026-08-05T09:00:22.136526+00:00",
       "last_status": "error",
-      "last_error": "RuntimeError: Error code: 401 - {'error': {'message': 'Missing Authentication header', 'code': 401}}",
+      "last_error": "RuntimeError: HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.",
       "last_delivery_error": null,
       "deliver": "local",
       "origin": null,
@@ -43,5 +43,5 @@
       "profile": null
     }
   ],
-  "updated_at": "2026-08-05T08:00:13.681103+00:00"
+  "updated_at": "2026-08-05T09:00:22.137026+00:00"
 }
