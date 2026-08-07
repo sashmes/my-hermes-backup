@@ -20,17 +20,17 @@
       "schedule_display": "0 * * * *",
       "repeat": {
         "times": null,
-        "completed": 611
+        "completed": 1451
       },
       "enabled": true,
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-06-07T18:35:25.376953+00:00",
-      "next_run_at": "2026-07-03T05:00:00+00:00",
-      "last_run_at": "2026-07-03T04:00:28.433775+00:00",
-      "last_status": "ok",
-      "last_error": null,
+      "next_run_at": "2026-08-07T05:00:00+00:00",
+      "last_run_at": "2026-08-07T04:00:19.536429+00:00",
+      "last_status": "error",
+      "last_error": "RuntimeError: Error code: 401 - {'error': {'message': 'Missing Authentication header', 'code': 401}}",
       "last_delivery_error": null,
       "deliver": "local",
       "origin": null,
@@ -43,5 +43,5 @@
       "profile": null
     }
   ],
-  "updated_at": "2026-07-03T04:00:28.434114+00:00"
+  "updated_at": "2026-08-07T04:00:19.537023+00:00"
 }
