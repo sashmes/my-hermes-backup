@@ -20,15 +20,15 @@
       "schedule_display": "0 * * * *",
       "repeat": {
         "times": null,
-        "completed": 2057
+        "completed": 2059
       },
       "enabled": true,
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-06-07T18:35:25.376953+00:00",
-      "next_run_at": "2026-09-01T11:00:00+00:00",
-      "last_run_at": "2026-09-01T10:00:52.270425+00:00",
+      "next_run_at": "2026-09-01T13:00:00+00:00",
+      "last_run_at": "2026-09-01T12:00:52.811135+00:00",
       "last_status": "error",
       "last_error": "RuntimeError: HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.",
       "last_delivery_error": null,
@@ -43,5 +43,5 @@
       "profile": null
     }
   ],
-  "updated_at": "2026-09-01T10:00:52.270729+00:00"
+  "updated_at": "2026-09-01T12:00:52.811471+00:00"
 }
