@@ -208,7 +208,7 @@
     "view_count": 0
   },
   "custom-image-overlays": {
-    "archived_at": null,
+    "archived_at": "2026-09-04T04:09:52.716096+00:00",
     "created_at": "2026-05-31T18:34:36.703712+00:00",
     "created_by": "agent",
     "last_patched_at": null,
@@ -216,7 +216,7 @@
     "last_viewed_at": null,
     "patch_count": 0,
     "pinned": false,
-    "state": "stale",
+    "state": "archived",
     "use_count": 0,
     "view_count": 0
   },
