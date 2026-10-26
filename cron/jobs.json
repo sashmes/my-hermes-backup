@@ -20,15 +20,15 @@
       "schedule_display": "0 * * * *",
       "repeat": {
         "times": null,
-        "completed": 3384
+        "completed": 3386
       },
       "enabled": true,
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-06-07T18:35:25.376953+00:00",
-      "next_run_at": "2026-10-26T18:00:00+00:00",
-      "last_run_at": "2026-10-26T17:00:42.838278+00:00",
+      "next_run_at": "2026-10-26T20:00:00+00:00",
+      "last_run_at": "2026-10-26T19:00:43.284557+00:00",
       "last_status": "error",
       "last_error": "RuntimeError: HTTP 401: Missing Authentication header",
       "last_delivery_error": null,
@@ -44,5 +44,5 @@
       "fire_claim": null
     }
   ],
-  "updated_at": "2026-10-26T17:00:42.838724+00:00"
+  "updated_at": "2026-10-26T19:00:43.284998+00:00"
 }
