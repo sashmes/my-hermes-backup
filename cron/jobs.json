@@ -20,17 +20,17 @@
       "schedule_display": "0 * * * *",
       "repeat": {
         "times": null,
-        "completed": 3936
+        "completed": 3937
       },
       "enabled": true,
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-06-07T18:35:25.376953+00:00",
-      "next_run_at": "2026-11-18T18:00:00+00:00",
-      "last_run_at": "2026-11-18T17:00:30.334123+00:00",
+      "next_run_at": "2026-11-18T19:00:00+00:00",
+      "last_run_at": "2026-11-18T18:00:21.658161+00:00",
       "last_status": "error",
-      "last_error": "RuntimeError: HTTP 403: Gemini HTTP 403 (PERMISSION_DENIED): Permission denied on the service.",
+      "last_error": "RuntimeError: HTTP 401: Missing Authentication header",
       "last_delivery_error": null,
       "deliver": "local",
       "origin": null,
@@ -44,5 +44,5 @@
       "fire_claim": null
     }
   ],
-  "updated_at": "2026-11-18T17:00:30.334709+00:00"
+  "updated_at": "2026-11-18T18:00:21.659192+00:00"
 }
